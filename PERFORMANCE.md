@@ -1,9 +1,9 @@
 # Performance improvements
 
-1) Caching recipes from all ednpoints (assuming we have same model of recipe in all endpoints ofc). As recipes are something we don't expect to be changed (or if changed we could update their ID for example), we could cache not only recipes we're getting from `details` endpoint, but also those we are getting from `getRecentRecipes`/`searchRecipes`. It will increase our performance as for those recipes we got from `getRecentRecipes`/`searchRecipes` endpoints we could render details without fetching them once more.
+1) Caching recipes from all endpoints (assuming we have same model of recipe in all endpoints ofc). As recipes are something we don't expect to be changed (or if changed we could update their ID for example), we could cache not only recipes we're getting from `details` endpoint, but also those we are getting from `getRecentRecipes`/`searchRecipes`. It will increase our performance as for those recipes we got from `getRecentRecipes`/`searchRecipes` endpoints we could render details without fetching them once more.
 Important: check logic for duplicates, we don't need to keep multiple records, we should overwrite details for recipe if there is an old entry.
 
-2) We could cache not only recipes data, but also search results for `searchRecipes`. So we would store kez pair value: `query: recipe[]`.
+2) We could cache not only recipes data, but also search results for `searchRecipes`. So we would store them as key-pair value: `query: recipe[]`.
 Important: This cache should have some expiration time, as new recipes may be created for particular query.
 
 3) We should not rely on `RecipeApi` instance as on cache storage, because it's just an object in runtime. We could use `localStorage` or `sessionStorage` (depending on our app business logic) to keep cache there. In this case `RecipeApi` constructor would load cache from storage (local or session), and will write it either on page close or on changes (first option is way better for performance, but there could be some tricky scenarios in IE).
@@ -38,7 +38,7 @@ We could combine endpoints `searchRecipes` and `getRecentRecipes` as second one 
 
 # Bugs
 
-1) No error and status handling in all API calls. Need to check for status (or use shorthand for succesful status `response.ok`)
+1) No error and status handling in all API calls. Need to check for status (or use shorthand for successful status `response.ok`)
 Fix:
 ```
 async getRecentRecipes() {

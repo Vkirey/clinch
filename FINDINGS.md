@@ -23,7 +23,7 @@ To achieve this we could use any of possible render checks:
 Window one waiting for all resources to load, document one waits only for initial HTML to render. Also window one will be executed AFTER all the document handlers.
 So if you sure your form is there on initial load (e.g. form is in page HTML, no runtime rendering inside etc.) - document one will execute faster. Otherwise (or if you doubt) use window one.
 
-5) Submit handler deosn't prevent default browser handler for form submitting, it would lead us to page reload on every form submitting, which we obviously don"t need, as we handle submit logic on client (FE) side, and just invoking some POST endpoint manually.
+5) Submit handler doesn't prevent default browser handler for form submitting, it would lead us to page reload on every form submitting, which we obviously don"t need, as we handle submit logic on client (FE) side, and just invoking some POST endpoint manually.
 
 Proposal: We could simply use "e.preventDefault()" at the start of our function (as it have couple of exits it's better to call it before).
 
@@ -46,4 +46,4 @@ Proposal: I would suggest to either check for response status codes (if you know
     throw new Error('Failed to save recipe');
 
 ## Bonus:
-Split logic for ingridients is currently part of submit handler, while logically should be in class implementation (depends on other cases of class usage, but I would say)
+Split logic for ingredients is currently part of submit handler, while logically should be in class implementation (depends on other cases of class usage, but I would say)
