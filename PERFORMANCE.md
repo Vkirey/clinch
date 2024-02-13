@@ -37,7 +37,7 @@ showRecipes(recipes) {
 
 ## BONUS
 
-### We could combine endpoints `searchRecipes` and `getRecentRecipes` as second one is corner case of first one. `Limit` could be part of the query. That will optimize codebase on both sides (FE/BE).
+We could combine endpoints `searchRecipes` and `getRecentRecipes` as second one is corner case of first one. `Limit` could be part of the query. That will optimize codebase on both sides (FE/BE).
 
 # Bugs
 
