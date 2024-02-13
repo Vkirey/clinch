@@ -33,8 +33,11 @@ showRecipes(recipes) {
   }
 ```
 
+5) We could also cache recent recipes and use them on next page load, while we are waiting for fresh recipes to be fetched. It affects UX much, so it worth discussion with business if that solution works for them.
+
 ## BONUS
-We could combine endpoints `searchRecipes` and `getRecentRecipes` as second one is corner case of first one. `Limit` could be part of the query. That will optimize codebase on both sides (FE/BE).
+
+### We could combine endpoints `searchRecipes` and `getRecentRecipes` as second one is corner case of first one. `Limit` could be part of the query. That will optimize codebase on both sides (FE/BE).
 
 # Bugs
 

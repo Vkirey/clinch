@@ -4,12 +4,17 @@ class RecipeApi {
     this.cache = {
       recipes: JSON.parse(localStorage.getItem("recipes") ?? "{}"),
       queries: JSON.parse(sessionStorage.getItem("queries") ?? "{}"),
+      recent: JSON.parse(localStorage.getItem("recent") ?? "null")
     };
 
     window.onunload = function () {
       localStorage.setItem("recipes", JSON.stringify(this.cache.recipes));
       sessionStorage.setItem("queries", JSON.stringify(this.cache.queries));
+      localStorage.setItem("recent", JSON.stringify(this.cache.recent));
     }.bind(this);
+  }
+  getCachedRecent() {
+    return this.cache.latest
   }
   async getRecentRecipes() {
     try {
@@ -19,6 +24,7 @@ class RecipeApi {
       if(!response.ok) { throw "API error" }
       const recipes = await response.json();
       recipes.forEach((r) => (this.cache.recipes[r.id] = r));
+      this.cache.recent = recipes
       return recipes;
     } catch (e) {
       console.error("Failed to load recent recipes", e);
@@ -101,7 +107,14 @@ window.addEventListener("DOMContentLoaded", () => {
   const renderer = new RecipeRenderer();
   async function loadRecipes() {
     try {
-      renderer.showLoader();
+      // Important: changes UX a lot, so need to be discussed with business first. Helps load page before all data is fetched.
+      const recentCached = api.getCachedRecent();
+      if(recentCached) {
+        renderer.showRecipes(recentCached);
+      } else {
+        renderer.showLoader();
+      }
+
       const recipes = await api.getRecentRecipes();
 
       renderer.showRecipes(recipes);
